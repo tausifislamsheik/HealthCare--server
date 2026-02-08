@@ -1,5 +1,4 @@
 import express, { Application, Request, Response } from "express";
-import { prisma } from "./app/lib/prisma";
 import { IndexRoutes } from "./app/routes";
 
 const app: Application = express();
@@ -13,21 +12,11 @@ app.use(express.json());
 app.use("/api/v1", IndexRoutes);
 
 // Basic route
-app.get("/", async (req: Request, res: Response) => {
-  const existing = await prisma.speciality.findUnique({
-    where: { title: "Cardiology" },
-  });
-
-  if (!existing) {
-    await prisma.speciality.create({
-      data: { title: "Cardiology" },
-    });
-  }
-  res.status(201).json({
-    success: true,
-    message: "API is working",
-    data: existing,
-  });
+app.get('/', async (req: Request, res: Response) => {
+    res.status(201).json({
+        success: true,
+        message: 'API is working',
+    })
 });
 
 export default app;
